@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "ical-generator": "npm:ical-generator@^8.0.1"
+  }
+}

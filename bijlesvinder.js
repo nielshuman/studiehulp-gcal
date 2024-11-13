@@ -35,8 +35,8 @@ export default class Bijlesvinder {
             },
             body: new URLSearchParams({
                 "filters": JSON.stringify({ "teammembers": teammember }),
-                "start": startDate.toISOString(),
-                "end": endDate.toISOString(),
+                "start": new Date(startDate).toISOString(),
+                "end": new Date(endDate).toISOString(),
                 "timeZone": "UTC"
             }),
         });
