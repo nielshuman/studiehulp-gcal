@@ -4,4 +4,4 @@ WORKDIR /app
 COPY . .
 RUN deno install
 EXPOSE 8000
-CMD ["run", "--allow-net", "--allow-read", "shitzooi.js"]
+CMD ["run", "--allow-net", "--allow-read", "--allow-env", "shitzooi.js"]
