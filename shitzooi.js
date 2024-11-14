@@ -1,6 +1,7 @@
 import Bijlesvinder from "./bijlesvinder.js";
 import ical from 'ical-generator';
-import "jsr:@std/dotenv/load";
+// import "jsr:@std/dotenv/load";
+
 const HOUR = 60 * 60 * 1000;
 const WEEK = 7 * 24 * HOUR;
 
