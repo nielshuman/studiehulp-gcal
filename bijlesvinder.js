@@ -38,6 +38,7 @@ export default class Bijlesvinder {
 
     async refresh() {
         if (this.expires < new Date()) {
+            console.log("Refreshing session");
             return await this.login();
         }
     }

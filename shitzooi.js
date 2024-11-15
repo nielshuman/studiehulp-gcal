@@ -42,6 +42,7 @@ await b.login();
 const app = express();
 app.get("/tarp/:teammember", async (req, res) => {
     const teammember = parseInt(req.params.teammember);
+    console.log("Getting planning for teammember", teammember);
     await b.refresh();
     const planning = await b.getPlanning(
         teammember,
