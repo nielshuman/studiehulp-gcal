@@ -54,6 +54,10 @@ app.use(rateLimit({
 
 app.get("/tarp/:teammember", async (req, res) => {
     const teammember = parseInt(req.params.teammember);
+    if (isNaN(teammember) || teammember < 0 || teammember > 200) {
+        res.status(400).send("Invalid teammember");
+        return;
+    }
     console.log("Getting planning for teammember", teammember);
     await b.refresh();
     const planning = await b.getPlanningMemoized(
