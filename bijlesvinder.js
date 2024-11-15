@@ -1,13 +1,15 @@
+import memoize from 'memoize';
 const client = Deno.createHttpClient(Deno.env.get("PROXIED") === "true" ? {
     proxy: {url: "localhost:8080"},
 } : {});
 
 export default class Bijlesvinder {
-    constructor({ email, password }) {
+    constructor({ email, password, cachetime }) {
         this.cookie = null;
         this.email = email;
         this.password = password;
         this.expires = null;
+        this.getPlanningMemoized = memoize(this.getPlanning.bind(this), {maxAge: cachetime? cachetime : 1000 * 60 * 60});
     }
 
     async login() {

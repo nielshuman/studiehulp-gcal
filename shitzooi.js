@@ -2,6 +2,7 @@ import Bijlesvinder from "./bijlesvinder.js";
 import ical from 'ical-generator';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+
 // import "jsr:@std/dotenv/load";
 
 const HOUR = 60 * 60 * 1000;
@@ -35,7 +36,8 @@ function planningToIcal(planning, title) {
 
 const b = new Bijlesvinder({
     email: Deno.env.get("EMAIL"), 
-    password: Deno.env.get("PASSWORD")
+    password: Deno.env.get("PASSWORD"),
+    cachetime: 1 * HOUR
 });
 
 await b.login();
@@ -54,7 +56,7 @@ app.get("/tarp/:teammember", async (req, res) => {
     const teammember = parseInt(req.params.teammember);
     console.log("Getting planning for teammember", teammember);
     await b.refresh();
-    const planning = await b.getPlanning(
+    const planning = await b.getPlanningMemoized(
         teammember,
         new Date(), 
         new Date(Date.now() + 4 * WEEK)

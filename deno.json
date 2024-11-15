@@ -2,7 +2,8 @@
   "imports": {
     "express": "npm:express@^4.21.1",
     "express-rate-limit": "npm:express-rate-limit@^7.4.1",
-    "ical-generator": "npm:ical-generator@^8.0.1"
+    "ical-generator": "npm:ical-generator@^8.0.1",
+    "memoize": "npm:memoize@^10.0.0"
   },
   "tasks": {
     "dev": "deno run --env -A shitzooi.js",
