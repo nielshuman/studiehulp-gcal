@@ -1,6 +1,7 @@
 import Bijlesvinder from "./bijlesvinder.js";
 import ical from 'ical-generator';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 // import "jsr:@std/dotenv/load";
 
 const HOUR = 60 * 60 * 1000;
@@ -40,6 +41,12 @@ const b = new Bijlesvinder({
 await b.login();
 
 const app = express();
+
+app.use(rateLimit({
+    windowMs: 1 * HOUR,
+    max: 10,
+}));
+
 app.get("/tarp/:teammember", async (req, res) => {
     const teammember = parseInt(req.params.teammember);
     console.log("Getting planning for teammember", teammember);

@@ -1,6 +1,7 @@
 {
   "version": "4",
   "specifiers": {
+    "npm:express-rate-limit@^7.4.1": "7.4.1_express@4.21.1",
     "npm:express@^4.21.1": "4.21.1",
     "npm:ical-generator@^8.0.1": "8.0.1"
   },
@@ -103,6 +104,12 @@
     },
     "etag@1.8.1": {
       "integrity": "sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg=="
+    },
+    "express-rate-limit@7.4.1_express@4.21.1": {
+      "integrity": "sha512-KS3efpnpIDVIXopMc65EMbWbUht7qvTCdtCR2dD/IZmi9MIkopYESwyRqLgv8Pfu589+KqDqOdzJWW7AHoACeg==",
+      "dependencies": [
+        "express"
+      ]
     },
     "express@4.21.1": {
       "integrity": "sha512-YSFlK1Ee0/GC8QaO91tHcDxJiE/X4FbpAyQWkxAvG6AXCuR65YzK8ua6D9hvi/TzUfZMpc+BwuM1IPw8fmQBiQ==",
@@ -377,6 +384,7 @@
   },
   "workspace": {
     "dependencies": [
+      "npm:express-rate-limit@^7.4.1",
       "npm:express@^4.21.1",
       "npm:ical-generator@^8.0.1"
     ]
