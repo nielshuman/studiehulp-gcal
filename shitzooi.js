@@ -42,12 +42,13 @@ await b.login();
 
 const app = express();
 
+app.set('trust proxy', 1)
+
 app.use(rateLimit({
     windowMs: 1 * HOUR,
     max: 10,
 }));
 
-app.set('trust proxy', 1)
 
 app.get("/tarp/:teammember", async (req, res) => {
     const teammember = parseInt(req.params.teammember);
