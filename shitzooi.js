@@ -47,6 +47,8 @@ app.use(rateLimit({
     max: 10,
 }));
 
+app.set('trust proxy', 1)
+
 app.get("/tarp/:teammember", async (req, res) => {
     const teammember = parseInt(req.params.teammember);
     console.log("Getting planning for teammember", teammember);
