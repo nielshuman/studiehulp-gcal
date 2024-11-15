@@ -1,9 +1,16 @@
+const client = Deno.createHttpClient(Deno.env.get("PROXIED") === "true" ? {
+    proxy: {url: "localhost:8080"},
+} : {});
+
 export default class Bijlesvinder {
-    constructor(email, password) {
+    constructor({ email, password }) {
         this.cookie = null;
+        this.email = email;
+        this.password = password;
+        this.expires = null;
     }
 
-    async login(email, password) {
+    async login() {
         const { token, sessionCookie } = await getLoginSession();
 
         const response = await fetch("https://bijlesvinder.studiehulp.nu/app/studiehulp-nu_security/login", {
@@ -13,17 +20,26 @@ export default class Bijlesvinder {
               "cookie": sessionCookie,
             },
             body: new URLSearchParams({
-                "login_form[_email]": email,
-                "login_form[_password]": password,
+                "login_form[_email]": this.email,
+                "login_form[_password]": this.password,
                 "_token": token,
             }),
-            redirect: "manual"
+            redirect: "manual",
+            client: client,
         });
     
         const cookies = response.headers.get("set-cookie").split("; ");
+        const expires = new Date(cookies[1].split("=")[1]);
         const newSessionCookie = cookies[0];
         this.cookie = newSessionCookie;
-        return newSessionCookie;
+        this.expires = new Date(expires - 2 * 60 * 60 * 1000); // 2 hours before expiration
+        return { sessionCookie: newSessionCookie, expires };
+    }
+
+    async refresh() {
+        if (this.expires < new Date()) {
+            return await this.login();
+        }
     }
 
     async getPlanning(teammember, startDate, endDate) {
@@ -39,6 +55,7 @@ export default class Bijlesvinder {
                 "end": new Date(endDate).toISOString(),
                 "timeZone": "UTC"
             }),
+            client: client
         });
         return await response.json();
     }
@@ -46,7 +63,8 @@ export default class Bijlesvinder {
 
 async function getLoginSession() { 
     const page = await fetch("https://bijlesvinder.studiehulp.nu/app/studiehulp-nu_security/login", {
-        method: "GET"
+        method: "GET",
+        client: client,
     });
     const pageText = await page.text();
     const token = pageText.match(/<input type="hidden" name="_token" value="(.*?)">/)[1];

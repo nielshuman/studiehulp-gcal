@@ -1,5 +1,10 @@
 {
   "imports": {
+    "express": "npm:express@^4.21.1",
     "ical-generator": "npm:ical-generator@^8.0.1"
+  },
+  "tasks": {
+    "dev": "deno run --env -A shitzooi.js",
+    "proxied": "PROXIED=true deno run --env -A --unsafely-ignore-certificate-errors shitzooi.js"
   }
 }
