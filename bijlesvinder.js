@@ -46,6 +46,7 @@ export default class Bijlesvinder {
     }
 
     async getPlanning(teammember, startDate, endDate) {
+        console.log("Making request");
         const response = await fetch("https://bijlesvinder.studiehulp.nu/app/bijlesvinder/planning/planning-calendar", {
             method: "POST",
             headers: {
