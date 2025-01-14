@@ -62,7 +62,7 @@ app.get("/tarp/:teammember", async (req, res) => {
     await b.refresh();
     const planning = await b.getPlanningMemoized(
         teammember,
-        new Date(), 
+        new Date() - 4 * WEEK, 
         new Date(Date.now() + 4 * WEEK)
     );
     const cal = planningToIcal(planning, "Uren Studiehulp.NU");
