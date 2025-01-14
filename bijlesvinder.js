@@ -1,4 +1,7 @@
 import memoize from 'memoize';
+
+const HOUR = 60 * 60 * 1000;
+
 const client = Deno.createHttpClient(Deno.env.get("PROXIED") === "true" ? {
     proxy: {url: "localhost:8080"},
 } : {});
@@ -34,7 +37,8 @@ export default class Bijlesvinder {
         const expires = new Date(cookies[1].split("=")[1]);
         const newSessionCookie = cookies[0];
         this.cookie = newSessionCookie;
-        this.expires = new Date(expires - 2 * 60 * 60 * 1000); // 2 hours before expiration
+        // this.expires = new Date(expires - 2 * 60 * 60 * 1000); // 2 hours before expiration
+        this.expires = new Date(new Date().getTime() + 12 * HOUR); // 12 from now
         return { sessionCookie: newSessionCookie, expires };
     }
 
