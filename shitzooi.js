@@ -12,21 +12,23 @@ const offset = Deno.env.get("OFFSET") ? parseInt(Deno.env.get("OFFSET")) : -1;
 function planningToIcal(planning, title) {
     const cal = ical({name: title});
     for (const event of planning) {
-        const t = event.title.split(" | ")
-    
-        if (t.length < 2) {
-            continue;
-        }
-    
-        const isBijles = (event.backgroundColor === "lightGrey")
-        
+        if (!event.productText) continue; // skip beschikbaarheid
+
         // min een uur want het ding is dom
         const startDate = new Date(new Date(event.start).getTime() + offset * HOUR);
         const endDate = new Date(new Date(event.end).getTime() + offset * HOUR);
-    
+        
+        let summary, description;
+        if (event.productText === "HW") {
+            summary = event.title.split("|")[1];
+            description = '';
+        } else {
+            summary = event.title.split("|")[0];
+            description = event.title.split("|")[1];
+        }
         cal.createEvent({
-            summary: isBijles? event.title : t[1], // remove the name in case of huiswerkbegeleiding
-            description: event.title,
+            summary,
+            description,
             start: startDate,
             end: endDate,
             location: "Studiehulp.NU"
