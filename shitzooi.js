@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 
 const HOUR = 60 * 60 * 1000;
 const WEEK = 7 * 24 * HOUR;
+const offset = Deno.env.get("OFFSET") ? parseInt(Deno.env.get("OFFSET")) : -1;
 
 function planningToIcal(planning, title) {
     const cal = ical({name: title});
@@ -20,8 +21,8 @@ function planningToIcal(planning, title) {
         const isBijles = (event.backgroundColor === "lightGrey")
         
         // min een uur want het ding is dom
-        const startDate = new Date(new Date(event.start) - HOUR);
-        const endDate = new Date(new Date(event.end) - HOUR);
+        const startDate = new Date(new Date(event.start) + offset * HOUR);
+        const endDate = new Date(new Date(event.end) - offset * HOUR);
     
         cal.createEvent({
             summary: isBijles? event.title : t[1], // remove the name in case of huiswerkbegeleiding
