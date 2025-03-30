@@ -21,8 +21,8 @@ function planningToIcal(planning, title) {
         const isBijles = (event.backgroundColor === "lightGrey")
         
         // min een uur want het ding is dom
-        const startDate = new Date(new Date(event.start) + offset * HOUR);
-        const endDate = new Date(new Date(event.end) + offset * HOUR);
+        const startDate = new Date(new Date(event.start).getTime() + offset * HOUR);
+        const endDate = new Date(new Date(event.end).getTime() + offset * HOUR);
     
         cal.createEvent({
             summary: isBijles? event.title : t[1], // remove the name in case of huiswerkbegeleiding
