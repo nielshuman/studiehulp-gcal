@@ -14,7 +14,7 @@ function planningToIcal(planning, title) {
     for (const event of planning) {
         if (!event.productText) continue; // skip beschikbaarheid
 
-        // min een uur want het ding is dom
+        // min een offset want het ding is dom
         const startDate = new Date(new Date(event.start).getTime() + offset * HOUR);
         const endDate = new Date(new Date(event.end).getTime() + offset * HOUR);
         
