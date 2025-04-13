@@ -2,7 +2,7 @@
 FROM denoland/deno:2.0.6
 WORKDIR /app
 COPY deno.json .
-COPY deps.lock .
+COPY deno.lock .
 RUN deno install
 COPY . .
 EXPOSE 8000
