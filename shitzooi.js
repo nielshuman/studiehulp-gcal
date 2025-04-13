@@ -61,8 +61,9 @@ app.get("/tarp/:teammember", async (req, res) => {
         return;
     }
     console.log("Getting planning for teammember", teammember);
-    const {stillvalid} = await b.refresh();
-    if (!stillvalid) {
+    const {stillValid} = await b.refresh();
+    // console.log("Still valid?", stillvalid);
+    if (!stillValid) {
         res.status(503).send("Refreshing session");
         return;
     }
