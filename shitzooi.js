@@ -38,12 +38,11 @@ function planningToIcal(planning, title) {
 }
 
 const b = new Bijlesvinder({
-    email: Deno.env.get("EMAIL"), 
-    password: Deno.env.get("PASSWORD"),
+    email: Deno.env.get("EMAIL"),
     cachetime: 1 * HOUR
 });
 
-await b.login();
+await b.login2FA();
 
 const app = express();
 
@@ -62,7 +61,11 @@ app.get("/tarp/:teammember", async (req, res) => {
         return;
     }
     console.log("Getting planning for teammember", teammember);
-    await b.refresh();
+    const {stillvalid} = await b.refresh();
+    if (!stillvalid) {
+        res.status(503).send("Refreshing session");
+        return;
+    }
     const planning = await b.getPlanningMemoized(
         teammember,
         new Date() - 4 * WEEK, 
